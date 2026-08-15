@@ -75,3 +75,10 @@ test("testing weather it is returning it is counting by stats and overdues thing
     .get("/tasks/stats")
     expect(res4.body.todo).toBe(3)
 })
+test("returns 400 when assignedUsername is empty", async () => {
+    const res1 = await req(app).post('/tasks').send({ title: 'Test' });
+    const res2 = await req(app)
+        .patch("/tasks/" + res1.body.id + "/assign")
+        .send({ assignedUsername: '   ' });
+    expect(res2.status).toBe(400);
+});
